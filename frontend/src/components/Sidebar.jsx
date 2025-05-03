@@ -1,11 +1,22 @@
 import { Link, useLocation } from "react-router";
 import useAuthUser from "../hooks/useAuthUser";
-import { BellIcon, HomeIcon, ShipWheelIcon, UsersIcon } from "lucide-react";
+import { BellIcon, HomeIcon, ShipWheelIcon } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { getFriendRequests } from "../lib/api";
 
 const Sidebar = () => {
   const { authUser } = useAuthUser();
   const location = useLocation();
   const currentPath = location.pathname;
+
+  // Get friend requests to show notification count
+  const { data: friendRequests } = useQuery({
+    queryKey: ["friendRequests"],
+    queryFn: getFriendRequests,
+  });
+
+  // Count of incoming friend requests
+  const incomingRequestsCount = friendRequests?.incomingReqs?.length || 0;
 
   return (
     <aside className="w-64 bg-base-200 border-r border-base-300 hidden lg:flex flex-col h-screen sticky top-0">
@@ -30,22 +41,19 @@ const Sidebar = () => {
         </Link>
 
         <Link
-          to="/friends"
-          className={`btn btn-ghost justify-start w-full gap-3 px-3 normal-case ${
-            currentPath === "/friends" ? "btn-active" : ""
-          }`}
-        >
-          <UsersIcon className="size-5 text-base-content opacity-70" />
-          <span>Friends</span>
-        </Link>
-
-        <Link
           to="/notifications"
           className={`btn btn-ghost justify-start w-full gap-3 px-3 normal-case ${
             currentPath === "/notifications" ? "btn-active" : ""
           }`}
         >
-          <BellIcon className="size-5 text-base-content opacity-70" />
+          <div className="relative">
+            <BellIcon className="size-5 text-base-content opacity-70" />
+            {incomingRequestsCount > 0 && (
+              <div className="absolute -top-2 -right-2 size-4 rounded-full bg-error text-white text-xs flex items-center justify-center font-semibold">
+                {incomingRequestsCount}
+              </div>
+            )}
+          </div>
           <span>Notifications</span>
         </Link>
       </nav>

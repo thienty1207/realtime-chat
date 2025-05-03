@@ -34,14 +34,27 @@
 </div>
 
 ## Screenshots
-![Chat Interface](https://via.placeholder.com/800x450?text=Chat+Interface)
-*Real-time chat interface with message history*
 
-![Authentication](https://via.placeholder.com/800x450?text=Authentication)
-*User registration and login interface*
+![Home Page](./image/homepage.png)
+*Trang chủ của ứng dụng*
 
-![Profile](https://via.placeholder.com/800x450?text=User+Profile)
-*User profile page with customization options*
+![Sign Up](./image/signuppage.png)
+*Giao diện đăng ký tài khoản*
+
+![Sign In](./image/Signinpage.png)
+*Giao diện đăng nhập*
+
+![Complete Profile](./image/completeprofilepage.png)
+*Hoàn thiện thông tin cá nhân*
+
+![Chat Interface](./image/chatpage.png)
+*Giao diện chat thời gian thực*
+
+![Notifications](./image/notificationspage.png)
+*Quản lý thông báo*
+
+![Call Interface](./image/callapp.png)
+*Giao diện cuộc gọi*
 
 ## Objective
 This project aims to create a real-time chat application with the following goals:

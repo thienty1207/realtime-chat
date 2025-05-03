@@ -1,13 +1,15 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import {
+  acceptFriendRequest,
+  getFriendRequests,
   getOutgoingFriendReqs,
   getRecommendedUsers,
   getUserFriends,
   sendFriendRequest,
 } from "../lib/api";
 import { Link } from "react-router";
-import { CheckCircleIcon, MapPinIcon, UserPlusIcon, UsersIcon } from "lucide-react";
+import { CheckCircleIcon, MapPinIcon, UserCheckIcon, UserPlusIcon, UsersIcon } from "lucide-react";
 
 import { capitialize } from "../lib/utils";
 
@@ -17,6 +19,7 @@ import NoFriendsFound from "../components/NoFriendsFound";
 const HomePage = () => {
   const queryClient = useQueryClient();
   const [outgoingRequestsIds, setOutgoingRequestsIds] = useState(new Set());
+  const [incomingRequestsMap, setIncomingRequestsMap] = useState(new Map());
 
   const { data: friends = [], isLoading: loadingFriends } = useQuery({
     queryKey: ["friends"],
@@ -33,9 +36,22 @@ const HomePage = () => {
     queryFn: getOutgoingFriendReqs,
   });
 
-  const { mutate: sendRequestMutation, isPending } = useMutation({
+  const { data: friendRequests } = useQuery({
+    queryKey: ["friendRequests"],
+    queryFn: getFriendRequests,
+  });
+
+  const { mutate: sendRequestMutation, isPending: isSendingRequest } = useMutation({
     mutationFn: sendFriendRequest,
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["outgoingFriendReqs"] }),
+  });
+
+  const { mutate: acceptRequestMutation, isPending: isAcceptingRequest } = useMutation({
+    mutationFn: acceptFriendRequest,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["friendRequests"] });
+      queryClient.invalidateQueries({ queryKey: ["friends"] });
+    },
   });
 
   useEffect(() => {
@@ -47,6 +63,16 @@ const HomePage = () => {
       setOutgoingRequestsIds(outgoingIds);
     }
   }, [outgoingFriendReqs]);
+
+  useEffect(() => {
+    const incomingReqsMap = new Map();
+    if (friendRequests && friendRequests.incomingReqs && friendRequests.incomingReqs.length > 0) {
+      friendRequests.incomingReqs.forEach((req) => {
+        incomingReqsMap.set(req.sender._id, req._id);
+      });
+      setIncomingRequestsMap(incomingReqsMap);
+    }
+  }, [friendRequests]);
 
   return (
     <div className="p-4 sm:p-6 lg:p-8">
@@ -99,7 +125,9 @@ const HomePage = () => {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {recommendedUsers.map((user) => {
-                const hasRequestBeenSent = outgoingRequestsIds.has(user._id);
+                const hasOutgoingRequest = outgoingRequestsIds.has(user._id);
+                const hasIncomingRequest = incomingRequestsMap.has(user._id);
+                const incomingRequestId = hasIncomingRequest ? incomingRequestsMap.get(user._id) : null;
 
                 return (
                   <div
@@ -108,8 +136,10 @@ const HomePage = () => {
                   >
                     <div className="card-body p-5 space-y-4">
                       <div className="flex items-center gap-3">
-                        <div className="avatar size-16 rounded-full">
-                          <img src={user.profilePic} alt={user.fullName} />
+                        <div className="avatar">
+                          <div className="w-16 h-16 rounded-full">
+                            <img src={user.profilePic} alt={user.fullName} />
+                          </div>
                         </div>
 
                         <div>
@@ -138,25 +168,36 @@ const HomePage = () => {
                       {user.bio && <p className="text-sm opacity-70">{user.bio}</p>}
 
                       {/* Action button */}
-                      <button
-                        className={`btn w-full mt-2 ${
-                          hasRequestBeenSent ? "btn-disabled" : "btn-primary"
-                        } `}
-                        onClick={() => sendRequestMutation(user._id)}
-                        disabled={hasRequestBeenSent || isPending}
-                      >
-                        {hasRequestBeenSent ? (
-                          <>
-                            <CheckCircleIcon className="size-4 mr-2" />
-                            Request Sent
-                          </>
-                        ) : (
-                          <>
-                            <UserPlusIcon className="size-4 mr-2" />
-                            Send Friend Request
-                          </>
-                        )}
-                      </button>
+                      {hasIncomingRequest ? (
+                        <button
+                          className="btn btn-success w-full mt-2"
+                          onClick={() => acceptRequestMutation(incomingRequestId)}
+                          disabled={isAcceptingRequest}
+                        >
+                          <UserCheckIcon className="size-4 mr-2" />
+                          Accept Invite
+                        </button>
+                      ) : (
+                        <button
+                          className={`btn w-full mt-2 ${
+                            hasOutgoingRequest ? "btn-disabled" : "btn-primary"
+                          } `}
+                          onClick={() => sendRequestMutation(user._id)}
+                          disabled={hasOutgoingRequest || isSendingRequest}
+                        >
+                          {hasOutgoingRequest ? (
+                            <>
+                              <CheckCircleIcon className="size-4 mr-2" />
+                              Request Sent
+                            </>
+                          ) : (
+                            <>
+                              <UserPlusIcon className="size-4 mr-2" />
+                              Send Friend Request
+                            </>
+                          )}
+                        </button>
+                      )}
                     </div>
                   </div>
                 );
