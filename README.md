@@ -36,25 +36,25 @@
 ## Screenshots
 
 ![Home Page](./image/homepage.png)
-*Trang chủ của ứng dụng*
+*Home Interface*
 
 ![Sign Up](./image/signuppage.png)
-*Giao diện đăng ký tài khoản*
+*Signup Interface*
 
 ![Sign In](./image/Signinpage.png)
-*Giao diện đăng nhập*
+*Signin Interface*
 
 ![Complete Profile](./image/completeprofilepage.png)
-*Hoàn thiện thông tin cá nhân*
+*Complete Profile Interface*
 
 ![Chat Interface](./image/chatpage.png)
-*Giao diện chat thời gian thực*
+*Realtime Chat Interface*
 
 ![Notifications](./image/notificationspage.png)
-*Quản lý thông báo*
+*Notifications Interface*
 
 ![Call Interface](./image/callapp.png)
-*Giao diện cuộc gọi*
+*App Call Interface*
 
 ## Objective
 This project aims to create a real-time chat application with the following goals:
@@ -109,46 +109,6 @@ The system is built using the MERN stack:
 - Node.js (v16 or higher)
 - MongoDB
 - npm or yarn
-
-### Installation
-
-1. Clone the repository
-   ```
-   git clone https://github.com/yourusername/Realtime-chat-app.git
-   cd Realtime-chat-app
-   ```
-
-2. Set up environment variables
-   - Create `.env` file in the backend directory with:
-     ```
-     PORT=5000
-     MONGODB_URI=mongodb://localhost:27017/chatapp
-     JWT_SECRET=yoursecretkey
-     ```
-   - Create `.env` file in the frontend directory with:
-     ```
-     VITE_API_URL=http://localhost:5000/api
-     ```
-
-3. Install dependencies and start development servers
-   ```
-   # Install dependencies for both frontend and backend
-   npm install
-   
-   # Run frontend development server
-   cd frontend
-   npm run dev
-   
-   # Run backend development server (in a separate terminal)
-   cd backend
-   npm run dev
-   ```
-
-4. For production
-   ```
-   npm run build
-   npm start
-   ```
 
 ## API Endpoints
 - `POST /api/auth/register`: Register a new user
