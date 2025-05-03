@@ -137,4 +137,3 @@ Dự án backend của bạn là một ứng dụng chat thời gian thực đư
    - Tạo Stream token cho người dùng
    - Kết nối với Stream Chat service
 
-Dự án này thể hiện kiến trúc RESTful API kết hợp với dịch vụ chat thời gian thực, áp dụng mô hình MVC (Model-View-Controller) với MongoDB làm cơ sở dữ liệu và Stream Chat làm dịch vụ chat ngoài.
