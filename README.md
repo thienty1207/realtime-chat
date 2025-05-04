@@ -35,25 +35,25 @@
 
 ## Screenshots
 
-![Home Page](./image/homepage.png)
+![Home Page](./image/homepage.png?v=2)
 *Home Interface*
 
-![Sign Up](./image/signuppage.png)
+![Sign Up](./image/createaccountpage.png?v=2)
 *Signup Interface*
 
-![Sign In](./image/Signinpage.png)
+![Sign In](./image/loginpage.png?v=2)
 *Signin Interface*
 
-![Complete Profile](./image/completeprofilepage.png)
+![Complete Profile](./image/completeprofilepage.png?v=2)
 *Complete Profile Interface*
 
-![Chat Interface](./image/chatpage.png)
+![Chat Interface](./image/chatpage.png?v=2)
 *Realtime Chat Interface*
 
-![Notifications](./image/notificationspage.png)
+![Notifications](./image/notificationspage.png?v=2)
 *Notifications Interface*
 
-![Call Interface](./image/callapp.png)
+![Call Interface](./image/callapp.png?v=2)
 *App Call Interface*
 
 ## Objective
