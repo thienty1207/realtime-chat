@@ -4,7 +4,7 @@
 
 <div align="center">
   
-[![last commit](https://img.shields.io/badge/last%20commit-october%202023-blue)](https://github.com/yourusername/Realtime-chat-app)
+[![last commit](https://img.shields.io/badge/last%20commit-may%202025-blue)](https://github.com/yourusername/Realtime-chat-app)
 [![javascript](https://img.shields.io/badge/javascript-100.0%25-blue)](https://github.com/yourusername/Realtime-chat-app)
 [![languages](https://img.shields.io/badge/languages-1-blue)](https://github.com/yourusername/Realtime-chat-app)
 

@@ -15,6 +15,15 @@ export async function signup(req, res) {
       return res.status(400).json({ message: "Password must be at least 6 characters" });
     }
 
+    /*
+     * This is a regular expression used to validate email addresses
+     * 
+     * ^[^\s@]+   - Start of string followed by one or more characters that are neither whitespace nor @
+     * @          - The @ symbol
+     * [^\s@]+    - One or more characters that are neither whitespace nor @
+     * \.         - A literal dot (escaped with backslash)
+     * [^\s@]+$   - One or more characters that are neither whitespace nor @, followed by end of string
+     */
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!emailRegex.test(email)) {
